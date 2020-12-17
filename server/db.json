@@ -1,0 +1,28 @@
+{
+    "employee":[
+        {
+            "name": "test",
+            "department": [
+                "HR"
+            ],
+            "gender": "male",
+            "salary": "500000",
+            "startDate": "1 Jan 2020",
+            "notes": "",
+            "id": 12345678910,
+            "profileUrl": "../../assets/profile-images/Ellipse 1.png"
+        },
+        {
+            "name": "Balram",
+            "department": [
+                "HR"
+            ],
+            "gender": "male",
+            "salary": "600000",
+            "startDate": "1 Jan 2020",
+            "notes": "",
+            "id": 12345678911,
+            "profileUrl": "../../assets/profile-images/Ellipse -8.png"
+        }
+    ]
+}
