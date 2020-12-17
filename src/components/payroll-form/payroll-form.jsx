@@ -6,8 +6,10 @@ import profile4 from "../../assets/profile-images/Ellipse -7.png";
 import './payroll-form.scss';
 import logo from '../../assets/images/logo.png';
 import { useParams, Link, withRouter } from 'react-router-dom';
+import EmployeeService from '../../services/employee-service';
 
 const PayrollForm = (props) =>{
+    let employeeService = new EmployeeService();
     let initialValue = {
         name: '',
         profileArray: [
@@ -96,6 +98,21 @@ const PayrollForm = (props) =>{
 
     const save = async (event) =>{
         event.preventDefault();
+        let object = {
+            name: formValue.name,
+            profileUrl: formValue.profileUrl,
+            gender: formValue.gender,
+            department: formValue.departmentValue,
+            salary: formValue.salary,
+            startDate: `${formValue.day} ${formValue.month} ${formValue.year}`,
+            notes: formValue.notes,
+            id: formValue.id
+        }
+
+        employeeService.addEmployee(object).then(data =>  {
+            console.log("data added");
+            props.history.push('')
+        }).catch(err => console.log(err));
     }
     const reset = () => {
         setForm({ ...initialValue, id: formValue.id, isUpdate: formValue.isUpdate});
@@ -109,7 +126,7 @@ const PayrollForm = (props) =>{
         return (
             <label>
                 <input type="radio" name="profileUrl" checked={formValue.profileUrl==props.profile} value={props.profile} onChange={changeValue} />
-                <img className="profile" src={props.profile} />
+                <img className="profile" src={profiles[props.index]} />
             </label>
         );
     }
@@ -150,7 +167,7 @@ const PayrollForm = (props) =>{
                     <div className="row-content">
                         <label className="label text" htmlFor="profileUrl">Profile image</label>
                         <div className="profile-radio-content">
-                            {profiles.map((profile)=><ProfilePic key={profile.toString()} profile={profile}/>)}
+                            {initialValue.profileArray.map((profile, index)=><ProfilePic key={profile.url.toString()} profile={profile.url} index={index}/>)}
                         </div>
                     </div>
                     <div className="error">{formValue.error.profileUrl}</div>
