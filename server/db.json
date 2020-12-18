@@ -90,6 +90,21 @@
       "startDate": "1 Jan 2020",
       "notes": "",
       "id": 12345678917
+    },
+    {
+      "name": "BridgeLabz",
+      "profilePic": "../../../assets/profile-images/Ellipse -3.png",
+      "gender": "male",
+      "department": [
+        "Engineer",
+        "HR",
+        "Sales",
+        "Finance"
+      ],
+      "salary": "500000",
+      "startDate": "10 Oct 2020",
+      "note": "Bridgelabz.....",
+      "id": 12345678918
     }
   ]
 }
