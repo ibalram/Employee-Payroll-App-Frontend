@@ -98,6 +98,11 @@ const PayrollForm = (props) =>{
 
     const save = async (event) =>{
         event.preventDefault();
+
+        if (await validData()){
+            console.log('error', formValue);
+            return;
+        }
         let object = {
             name: formValue.name,
             profilePic: formValue.profileUrl,
@@ -109,7 +114,8 @@ const PayrollForm = (props) =>{
         }
 
         employeeService.addEmployee(object).then(data =>  {
-            console.log("data added");
+            alert("data added successfully");
+            console.log("data added successfully");
             props.history.push('')
         }).catch(err => console.log(err));
     }

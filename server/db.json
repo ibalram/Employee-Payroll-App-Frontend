@@ -105,6 +105,18 @@
       "startDate": "10 Oct 2020",
       "note": "Bridgelabz.....",
       "id": 12345678918
+    },
+    {
+      "name": "Kaycee",
+      "profilePic": "../../../assets/profile-images/Ellipse -7.png",
+      "gender": "female",
+      "department": [
+        "Engineer"
+      ],
+      "salary": "443800",
+      "startDate": "07 Nov 2020",
+      "note": "abcdefgh",
+      "id": 12345678919
     }
   ]
 }
