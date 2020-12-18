@@ -100,13 +100,12 @@ const PayrollForm = (props) =>{
         event.preventDefault();
         let object = {
             name: formValue.name,
-            profileUrl: formValue.profileUrl,
+            profilePic: formValue.profileUrl,
             gender: formValue.gender,
             department: formValue.departmentValue,
             salary: formValue.salary,
-            startDate: `${formValue.day} ${formValue.month} ${formValue.year}`,
-            notes: formValue.notes,
-            id: formValue.id
+            startDate: `${formValue.day.length==1?"0"+formValue.day: formValue.day} ${formValue.month} ${formValue.year}`,
+            note: formValue.notes,
         }
 
         employeeService.addEmployee(object).then(data =>  {
@@ -175,9 +174,9 @@ const PayrollForm = (props) =>{
                     <div className="row-content">
                         <label className="label text" htmlFor="gender">Gender</label>
                         <div>
-                            <input type="radio" id="male" name="gender" value="male" />
+                            <input onChange={changeValue} type="radio" id="male" name="gender" checked={formValue.gender=="male"}  value="male" />
                             <label className="text" htmlFor="male">Male</label>
-                            <input type="radio" id="female" name="gender" value="female" />
+                            <input onChange={changeValue} type="radio" id="female" name="gender" checked={formValue.gender=="female"} value="female" />
                             <label className="text" htmlFor="female">Female</label>
                         </div>
                     </div>

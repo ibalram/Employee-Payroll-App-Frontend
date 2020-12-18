@@ -78,6 +78,18 @@
       "startDate": "1 Nov 2020",
       "notes": "hiii",
       "id": 12345678916
+    },
+    {
+      "name": "Balram",
+      "profileUrl": "../../../assets/profile-images/Ellipse -3.png",
+      "gender": "",
+      "department": [
+        "Engineer"
+      ],
+      "salary": "407000",
+      "startDate": "1 Jan 2020",
+      "notes": "",
+      "id": 12345678917
     }
   ]
 }
