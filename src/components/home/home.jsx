@@ -19,8 +19,12 @@ class Home extends React.Component{
         }).catch(err => console.log(err));
     }
 
-    update(id){
-
+    remove(id){
+        (new EmployeeService()).deleteEmployee(id).then(data => {
+            alert("Delete successfully");
+            console.log("Delete successfully");
+            this.props.location.reload();
+        }).catch(err => console.log(err));
     }
 
     render(){
@@ -57,7 +61,7 @@ class Home extends React.Component{
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.state.employeeArray.map(employee => (
+                                {this.state.employeeArray && this.state.employeeArray.map(employee => (
                                     <tr key={employee.id.toString()}>
                                         <td><img className="profile" src={employee.profilePic} alt=""/> </td>
                                         <td>{employee.name}</td>
@@ -68,7 +72,7 @@ class Home extends React.Component{
                                         <td>{employee.salary}</td>
                                         <td>{employee.startDate}</td>
                                         <td>
-                                            <img id={employee.id}  src="/assets/icons/delete-black-18dp.svg" alt="delete" />
+                                            <img id={employee.id}  onClick={()=>this.remove(employee.id)} src="/assets/icons/delete-black-18dp.svg" alt="delete" />
                                             <Link to={{
                                                 pathname: '/employee-form',
                                                 state: ["update", employee]

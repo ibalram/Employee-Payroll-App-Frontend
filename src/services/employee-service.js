@@ -14,4 +14,7 @@ export default class  EmployeeService{
         return (new AxiosService()).putService(`${this.baseUrl}/employee/${id}`, data);
         // return axios.post(`${this.baseUrl}/employeepayrollservice/create`, data);
     }
+    deleteEmployee(id){
+        return (new AxiosService()).deleteService(`${this.baseUrl}/employee/${id}`);
+    }
 }
