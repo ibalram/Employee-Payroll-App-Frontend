@@ -1,6 +1,6 @@
 const axios = require('axios').default;
 
-class AxiosService{
+export default class AxiosService{
     postService(url = '', payload = null, tokenRequired = false, httpOptions = null){
         return axios.post(url, payload, tokenRequired && httpOptions);
     }
@@ -16,4 +16,4 @@ class AxiosService{
 
 }
 
-module.exports = new AxiosService();
+// module.exports = new AxiosService();

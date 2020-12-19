@@ -1,10 +1,5 @@
 import React, {useState, useEffect} from  'react';
-import profile1 from "../../assets/profile-images/Ellipse -3.png";
-import profile2 from "../../assets/profile-images/Ellipse 1.png";
-import profile3 from "../../assets/profile-images/Ellipse -8.png";
-import profile4 from "../../assets/profile-images/Ellipse -7.png";
 import './payroll-form.scss';
-import logo from '../../assets/images/logo.png';
 import { useParams, Link, withRouter } from 'react-router-dom';
 import EmployeeService from '../../services/employee-service';
 
@@ -111,6 +106,7 @@ const PayrollForm = (props) =>{
             salary: formValue.salary,
             startDate: `${formValue.day.length==1?"0"+formValue.day: formValue.day} ${formValue.month} ${formValue.year}`,
             note: formValue.notes,
+            id: formValue.id,
         }
 
         employeeService.addEmployee(object).then(data =>  {
@@ -125,13 +121,11 @@ const PayrollForm = (props) =>{
     }
 
     // Components
-    const profiles = [profile1, profile2, profile3, profile4];
-
     function ProfilePic(props){     
         return (
             <label>
                 <input type="radio" name="profileUrl" checked={formValue.profileUrl==props.profile} value={props.profile} onChange={changeValue} />
-                <img className="profile" src={profiles[props.index]} />
+                <img className="profile" alt="" src={props.profile} />
             </label>
         );
     }
@@ -153,7 +147,7 @@ const PayrollForm = (props) =>{
         <div className="payroll-main">
             <header className='header row center'>
                 <div className="logo">
-                    <img src={logo} alt="" />
+                    <img src={'../../assets/images/logo.png'} alt="" />
                     <div>
                         <span className="emp-text">EMPLOYEE</span> <br/>
                         <span className="emp-text emp-payroll">PAYROLL</span>
@@ -225,7 +219,7 @@ const PayrollForm = (props) =>{
                             placeholder="additional info.." style={{height: '100%'}}></textarea>
                     </div>
                     <div className="buttonParent">
-                        <Link to="./home.html" className="resetButton button cancelButton">Cancel</Link>
+                        <Link to="/home" className="resetButton button cancelButton">Cancel</Link>
                         <div className="submit-reset">
                             <button type="submit" className="button submitButton" id="submitButton" >{formValue.isUpdate ? 'Update' : 'Submit'}</button>
                             <button type="reset" onClick={reset} className="resetButton button">Reset</button>
