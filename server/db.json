@@ -2,15 +2,15 @@
   "employee": [
     {
       "name": "test",
+      "profilePic": "/assets/profile-images/Ellipse 1.png",
+      "gender": "female",
       "department": [
         "HR"
       ],
-      "gender": "female",
       "salary": "500000",
-      "startDate": "1 Jan 2020",
-      "notes": "",
-      "id": 12345678910,
-      "profilePic": "../../assets/profile-images/Ellipse 1.png"
+      "startDate": "14 Oct 2020",
+      "note": "",
+      "id": 12345678910
     },
     {
       "name": "Balram",
@@ -18,15 +18,15 @@
         "HR"
       ],
       "gender": "male",
-      "salary": "600000",
+      "salary": "300000",
       "startDate": "1 Jan 2020",
       "notes": "",
       "id": 12345678911,
-      "profilePic": "../../assets/profile-images/Ellipse -8.png"
+      "profilePic": "/assets/profile-images/Ellipse -8.png"
     },
     {
       "name": "BridgeLabz",
-      "profilePic": "../../assets/profile-images/Ellipse -3.png",
+      "profilePic": "/assets/profile-images/Ellipse -3.png",
       "gender": "male",
       "department": [
         "Engineer",
@@ -41,7 +41,7 @@
     },
     {
       "name": "Kaycee",
-      "profilePic": "../../assets/profile-images/Ellipse -7.png",
+      "profilePic": "/assets/profile-images/Ellipse -7.png",
       "gender": "female",
       "department": [
         "Engineer"
@@ -50,6 +50,20 @@
       "startDate": "07 Nov 2020",
       "note": "abcdefgh",
       "id": 12345678919
+    },
+    {
+      "name": "NewBalram",
+      "profilePic": "/assets/profile-images/Ellipse -3.png",
+      "gender": "male",
+      "department": [
+        "Engineer",
+        "HR",
+        "Finance"
+      ],
+      "salary": "500000",
+      "startDate": "19 Dec 2020",
+      "note": "",
+      "id": 12345678920
     }
   ]
 }

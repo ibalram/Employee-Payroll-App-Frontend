@@ -5,8 +5,8 @@ import EmployeeService from '../../services/employee-service';
 
 class Home extends React.Component{
     employeeService = new EmployeeService();
-    constructor(){
-        super()
+    constructor(props){
+        super(props);
         this.state={
             employeeArray: []
         }
@@ -17,6 +17,10 @@ class Home extends React.Component{
             console.log(data);
             this.setState({employeeArray : data.data});
         }).catch(err => console.log(err));
+    }
+
+    update(id){
+
     }
 
     render(){
@@ -65,7 +69,10 @@ class Home extends React.Component{
                                         <td>{employee.startDate}</td>
                                         <td>
                                             <img id={employee.id}  src="/assets/icons/delete-black-18dp.svg" alt="delete" />
-                                            <img id={employee.id}  src="/assets/icons/create-black-18dp.svg" alt="edit" />
+                                            <Link to={{
+                                                pathname: '/employee-form',
+                                                state: ["update", employee]
+                                            }}><img id={employee.id} src="/assets/icons/create-black-18dp.svg" alt="edit" /></Link>
                                         </td>
                                     </tr>
                                 ))}
