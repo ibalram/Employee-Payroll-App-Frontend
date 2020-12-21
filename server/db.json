@@ -1,11 +1,12 @@
 {
   "employee": [
     {
-      "name": "test",
+      "name": "Test",
       "profilePic": "/assets/profile-images/Ellipse 1.png",
       "gender": "female",
       "department": [
-        "HR"
+        "HR",
+        "Finance"
       ],
       "salary": "500000",
       "startDate": "14 Oct 2020",
@@ -14,15 +15,15 @@
     },
     {
       "name": "Balram",
+      "profilePic": "/assets/profile-images/Ellipse -8.png",
+      "gender": "male",
       "department": [
         "HR"
       ],
-      "gender": "male",
       "salary": "300000",
-      "startDate": "1 Jan 2020",
-      "notes": "",
-      "id": 12345678911,
-      "profilePic": "/assets/profile-images/Ellipse -8.png"
+      "startDate": "01 Jan 2020",
+      "note": "",
+      "id": 12345678911
     },
     {
       "name": "BridgeLabz",

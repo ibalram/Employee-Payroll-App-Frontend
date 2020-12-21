@@ -23,7 +23,7 @@ const PayrollForm = (props) =>{
         month: 'Jan',
         year: '2020',
         startDate: '',
-        notes: '',
+        note: '',
         id: '',
         profilePic: '',
         isUpdate: false,
@@ -49,7 +49,22 @@ const PayrollForm = (props) =>{
     const [formValue, setForm] = useState(initialValue);
 
     const changeValue  = (event) => {
+        let error = {
+            department: '',
+            name: '',
+            gender: '',
+            salary: '',
+            profilePic: '',
+            startDate: ''
+        }
+        let nameRegex = RegExp("^[A-Z]{1}[a-zA-Z\\s]{2,}$");
+        if ((event.target.name=="name") && !nameRegex.test(event.target.value)){
+            formValue.error.name="Incorrect Name";
+        }else{
+            formValue.error.name="";
+        }
         setForm({ ...formValue, [event.target.name]: event.target.value })
+
     }
 
     const onCheckChange = (name) =>{
@@ -75,8 +90,13 @@ const PayrollForm = (props) =>{
             profilePic: '',
             startDate: ''
         }
+        let nameRegex = RegExp("^[A-Z]{1}[a-zA-Z\\s]{2,}$");
         if (formValue.name.length < 1){
             error.name = 'name is required field'
+            isError = true;
+        }
+        if ((!nameRegex.test(formValue.name))){
+            error.name="Incorrect Name";
             isError = true;
         }
         if (formValue.gender.length < 1){
@@ -116,7 +136,7 @@ const PayrollForm = (props) =>{
             department: formValue.department,
             salary: formValue.salary,
             startDate: `${formValue.day.length==1?"0"+formValue.day: formValue.day} ${formValue.month} ${formValue.year}`,
-            note: formValue.notes,
+            note: formValue.note,
             id: formValue.id,
         }
         
@@ -233,7 +253,7 @@ const PayrollForm = (props) =>{
 
                     <div className="row-content">
                         <label className="label text" htmlFor="notes">Notes</label>
-                        <textarea onChange={changeValue} id="notes" value={formValue.notes} className="input" name="notes" 
+                        <textarea onChange={changeValue} id="notes" value={formValue.note} className="input" name="notes" 
                             placeholder="additional info.." style={{height: '100%'}}></textarea>
                     </div>
                     <div className="buttonParent">

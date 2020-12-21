@@ -23,7 +23,7 @@ class Home extends React.Component{
         (new EmployeeService()).deleteEmployee(id).then(data => {
             alert("Delete successfully");
             console.log("Delete successfully");
-            this.props.location.reload();
+            window.location.reload();
         }).catch(err => console.log(err));
     }
 
