@@ -1,3 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,600;1,500&display=swap');
+
+.body{
+    margin: 0;
+    height: 100%;
+}
+
 .header{
     padding: 15px 0;
     background-color: #ffffff;
@@ -9,6 +17,7 @@
         width: 80%;
         img{
             border: solid 0px #42515f;
+            padding-right: 10px;
         }
     }
     .emp-text{
@@ -21,6 +30,10 @@
     .emp-payroll{
         color: #42515f;
     }
+}
+
+*{
+    box-sizing: border-box;
 }
 
 .main-content{
@@ -71,6 +84,7 @@
     outline: none;
     cursor: pointer;
     text-decoration: none;
+    display: flex;
 } 
 
 
@@ -83,7 +97,7 @@
 .table{
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0 15px;
+    border-spacing: 0 5px;
     min-width: 800px;
 }
 
@@ -101,17 +115,20 @@ th{
     text-transform: uppercase;
     opacity: 1;
     border: 0px solid #dddddd;
+    height: 67px;
+    padding: 8px;
 }
 
-tr:not(:first-child) {
+tr {
     background: #ffffff 0% 0% no-repeat padding-box;
     border: 1px solid #e3e3e3;
     border-radius: 3px;
+    box-shadow: 0px 1px 3px 0px #00000029;
 }
 
 td {
   font: normal normal normal 14px/21px Roboto;
-  letter-spacing: 0;
+  letter-spacing: 0px;
   color: #3d3d3d;
   opacity: 1;
 }
@@ -119,10 +136,11 @@ td {
 td:first-child {
   display: flex;
   align-items: center;
+  float: right;
 }
 
 td img:first-child {
-  margin-right: 10px;
+  margin-block: 5px;
 }
 
 td img {
@@ -137,6 +155,7 @@ td img {
     text-align: center;
     font-size: 14px;
     display: inline-block;
+    margin: 2px;
     font-weight: 300;
     margin-bottom: 8px;
 }

@@ -183,7 +183,7 @@ const PayrollForm = (props) =>{
     const years = [2020,2019,2018,2017,2016];
     return (
         <div className="payroll-main">
-            <header className='header row center'>
+            <header className='header-content header row center'>
                 <div className="logo">
                     <img src={'/assets/images/logo.png'} alt="" />
                     <div>
@@ -196,13 +196,13 @@ const PayrollForm = (props) =>{
                 <form className="form" action="#" onReset={reset} onSubmit={save}>
                     <div className="form-head">Employee Payroll Form</div>
                     <div className="row-content">
-                        <label className="label text" hmtlFor="name">Name</label>
+                        <label className="label text" >Name</label>
                         <input className="input" type="text" id="name" name="name" placeholder="Your Name.."  value={formValue.name} onChange={changeValue} />
                     </div>
                     <div className="error">{formValue.error.name}</div>
 
                     <div className="row-content">
-                        <label className="label text" htmlFor="profilePic">Profile image</label>
+                        <label className="label text" >Profile image</label>
                         <div className="profile-radio-content">
                             {initialValue.profileArray.map((profile, index)=><ProfilePic key={profile.url.toString()} profile={profile.url} index={index}/>)}
                         </div>
@@ -210,7 +210,7 @@ const PayrollForm = (props) =>{
                     <div className="error">{formValue.error.profilePic}</div>
 
                     <div className="row-content">
-                        <label className="label text" htmlFor="gender">Gender</label>
+                        <label className="label text" >Gender</label>
                         <div>
                             <input onChange={changeValue} type="radio" id="male" name="gender" checked={formValue.gender=="male"}  value="male" />
                             <label className="text" htmlFor="male">Male</label>
@@ -221,7 +221,7 @@ const PayrollForm = (props) =>{
                     <div className="error">{formValue.error.gender}</div>
 
                     <div className="row-content">
-                        <label className="label text" htmlFor="department">Department</label>
+                        <label className="label text" >Department</label>
                         <div>
                             {departments.map((department) => <Department key={department.toString()} department={department} />)}
                         </div>
@@ -229,14 +229,14 @@ const PayrollForm = (props) =>{
                     <div className="error">{formValue.error.department}</div>
 
                     <div className="row-content">
-                        <label className="label text" htmlFor="salary">Choose Your Salary: </label>
+                        <label className="label text" >Choose Your Salary: </label>
                         <input className="input" type="range" onChange={changeValue} name="salary" id="salary" min="300000" max="500000" step="100" defaultValue={formValue.salary} />
-                        <output className="salary-output text" htmlFor="salary">{formValue.salary}</output>
+                        <output className="salary-output text" >{formValue.salary}</output>
                     </div>
                     <div className="error">{formValue.error.salary}</div>
 
                     <div className="row-content">
-                        <label className="label text" htmlFor="startDate">Start Date</label>
+                        <label className="label text" >Start Date</label>
                         <div>
                             <select onChange={changeValue} id="day" className="date" name="day" defaultValue={formValue.day}>
                                 {days.map((item) => <option key={"day"+item.toString()} value={item}>{item}</option> )}
@@ -252,9 +252,9 @@ const PayrollForm = (props) =>{
                     <div className="error">{formValue.error.startDate}</div>
 
                     <div className="row-content">
-                        <label className="label text" htmlFor="notes">Notes</label>
-                        <textarea onChange={changeValue} id="notes" value={formValue.note} className="input" name="notes" 
-                            placeholder="additional info.." style={{height: '100%'}}></textarea>
+                        <label className="label text">Notes</label>
+                        <textarea onChange={changeValue} id="note" value={formValue.note} className="input" name="note" 
+                            placeholder="Additional info.." style={{height: '100px'}}></textarea>
                     </div>
                     <div className="buttonParent">
                         <Link to="" className="resetButton button cancelButton">Cancel</Link>

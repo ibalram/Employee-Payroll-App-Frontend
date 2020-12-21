@@ -10,6 +10,9 @@ class Home extends React.Component{
         this.state={
             employeeArray: []
         }
+        // this.getAllEmployees();
+    }
+    componentDidMount(){
         this.getAllEmployees();
     }
     getAllEmployees(){
@@ -29,8 +32,8 @@ class Home extends React.Component{
 
     render(){
         return (
-            <div>
-                <header className='header row center'>
+            <div className="body">
+                <header className='header-content header row center'>
                     <div className="logo">
                         <img src='/assets/images/logo.png' alt="" />
                         <div>
@@ -42,14 +45,14 @@ class Home extends React.Component{
                 <div className="main-content">
                     <div className="header-content">
                         <div className="emp-detail-text">
-                            Employee Details<div className="emp-count">{this.state.employeeArray.length}</div>
+                            Employee Details <div className="emp-count">{this.state.employeeArray.length}</div>
                         </div>
                         <a href="/employee-form" className="add-button">
                             <img alt="" src='/assets/icons/add-24px.svg' />Add User</a>
                     </div>
                     <div className="table-main">
                         <table id="display" className="table">
-                            <thead>
+                            <tbody>
                                 <tr>
                                     <th></th>
                                     <th>Name</th>
@@ -59,24 +62,24 @@ class Home extends React.Component{
                                     <th>Start Date</th>
                                     <th>Action</th>
                                 </tr>
-                            </thead>
+                            </tbody>
                             <tbody>
                                 {this.state.employeeArray && this.state.employeeArray.map(employee => (
                                     <tr key={employee.id.toString()}>
-                                        <td><img className="profile" src={employee.profilePic} alt=""/> </td>
+                                        <td><img className="profile" src={employee.profilePic} alt=""/></td>
                                         <td>{employee.name}</td>
                                         <td>{employee.gender}</td>
                                         <td>
-                                            {employee.department.map(department => <div key={department} className="dept-label">{department}</div>)}
+                                            {employee.department && employee.department.map(department => <div key={department} className="dept-label">{department}</div>)}
                                         </td>
-                                        <td>{employee.salary}</td>
+                                        <td>₹ {employee.salary}</td>
                                         <td>{employee.startDate}</td>
                                         <td>
-                                            <img id={employee.id}  onClick={()=>this.remove(employee.id)} src="/assets/icons/delete-black-18dp.svg" alt="delete" />
+                                            <img id={employee.id} style={{paddingRight: '10px'}} onClick={()=>this.remove(employee.id)} src="/assets/icons/delete-black-18dp.svg" alt="delete" />
                                             <Link to={{
                                                 pathname: '/employee-form',
                                                 state: ["update", employee]
-                                            }}><img id={employee.id} src="/assets/icons/create-black-18dp.svg" alt="edit" /></Link>
+                                            }}><img id={employee.id} style={{paddingLeft: '10px'}} src="/assets/icons/create-black-18dp.svg" alt="edit" /></Link>
                                         </td>
                                     </tr>
                                 ))}

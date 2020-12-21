@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,600;1,500&display=swap');
+
 .payroll-main{
     margin: 0;
     height: 100%;
@@ -27,6 +30,15 @@
         color: #42515f;
     }
 }
+.header-content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+    padding-bottom: 25px;
+}
 
 // *{ 
 //     box-sizing: border-box;
@@ -40,6 +52,8 @@
     align-items: center;
     border: 0px solid green;
     .form{
+        margin-top: 25px;
+        margin-bottom: 35px;
         width: 65%;
         padding: 44px 60px;
         background: #ffffff 0% 0% no-repeat padding-box;
@@ -85,6 +99,7 @@
         .profile-radio-content{
             display: flex;
             flex-direction: row;
+            flex-wrap: wrap;
             label{
                 display: flex;
                 flex-direction: row;
@@ -123,27 +138,41 @@
             font-size: 20px;
             font-family: Roboto;
             letter-spacing: 0px;
-            color: #42515f;
+            color: #42515F;
             opacity: 1;
-            border-radius: 5px;
+            border-radius: 5px 5px 5px 5px;
             font-weight: 400;
             min-width: 140px;
             padding: 7px 7px;
-            border: 1px solid #707070;
+            border: 1px solid#969696;
             cursor: pointer;
+            background-color: #E2E2E2;
         }
         .submitButton{
-            margin-right: 10px;
+            margin-right: 20px;
         }
         .cancelButton{
             text-decoration: none;
             text-align: center;
-            background-color: #eeeeee;
+        }
+
+        .submitButton:hover {
+            background: #82A70C;
+            color: #FFFFFF;
+            font-weight: 300;
+            border: 1px solid #969696;
+        }
+
+        .resetButton:hover , .cancelButton:hover {
+            background: #707070;
+            color: #FFFFFF;
+            font-weight: 300;
+            border: 1px solid #969696;
         }
     }
 }
 
-@media only screen and (max-width: 960px){
+@media only screen and (max-width: 960px) and (min-width: 600px){
     .cancelButton{
         margin-left: 0px;
     }
@@ -157,8 +186,9 @@
     .form{
         margin-top: 10px;
     }
-    .row{
+    .row-content{
         flex-direction: column;
+        align-items: center;
     }
     .uploadButton{
         justify-content: flex-start;
@@ -166,11 +196,15 @@
     .profile-radio-button{
         flex-flow: wrap;
     }
+    .label{
+        min-width: 80px;
+    }
     .submit-reset{
         width: 100%;
         display: flex;
         flex-grow: 1;
-        flex-direction: row-reverse;
+        flex-flow: wrap;
+        flex-direction: row;
         justify-content: space-between;
         margin-bottom: 20px;
     }
@@ -178,7 +212,7 @@
         margin: 0;
     }
     .buttonParent{
-        flex-direction: column-reverse;
-        align-items: flex-start;
+        flex-direction: column;
+        align-items: flex-end;
     }
 } 
