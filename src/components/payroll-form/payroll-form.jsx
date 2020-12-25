@@ -42,7 +42,7 @@ const PayrollForm = (props) =>{
         Object.assign(initialValue, props.location.state[1]);
         initialValue.isUpdate = true;
         [initialValue.day, initialValue.month, initialValue.year] = initialValue.startDate.split(" ");
-        initialValue.day = parseInt(initialValue.day);
+        initialValue.day = parseInt(initialValue.day).toString();
 
     }
 
@@ -137,7 +137,7 @@ const PayrollForm = (props) =>{
             salary: formValue.salary,
             startDate: `${formValue.day.length==1?"0"+formValue.day: formValue.day} ${formValue.month} ${formValue.year}`,
             note: formValue.note,
-            id: formValue.id,
+            // id: formValue.id,
         }
         
         if(formValue.isUpdate){

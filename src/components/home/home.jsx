@@ -18,7 +18,8 @@ class Home extends React.Component{
     getAllEmployees(){
         (new EmployeeService()).getAllEmployees().then(data => {
             console.log(data);
-            this.setState({employeeArray : data.data});
+            // this.setState({employeeArray : data.data});
+            this.setState({employeeArray: data.data.data});
         }).catch(err => console.log(err));
     }
 
