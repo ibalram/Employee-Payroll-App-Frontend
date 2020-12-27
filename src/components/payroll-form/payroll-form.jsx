@@ -1,14 +1,26 @@
-import React, {useState, useEffect} from  'react';
+import React, {useState} from  'react';
 import './payroll-form.scss';
-import { useParams, Link, withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import EmployeeService from '../../services/employee-service';
+import validatorService from '../../services/validator-service';
+
+const getDayList = {
+    28: Array.from(new Array(28),(val,index)=>index+1),
+    29: Array.from(new Array(29),(val,index)=>index+1),
+    30: Array.from(new Array(30),(val,index)=>index+1),
+    31: Array.from(new Array(31),(val,index)=>index+1)
+};
 
 const PayrollForm = (props) =>{
     let employeeService = new EmployeeService();
+    let validator = new validatorService();
     let initialValue = {
         name: '',
         profileArray: [
+            { url: '/assets/profile-images/Ellipse -1.png' },
+            { url: '/assets/profile-images/Ellipse -2.png' },
             { url: '/assets/profile-images/Ellipse -3.png' },
+            { url: '/assets/profile-images/Ellipse -4.png' },
             { url: '/assets/profile-images/Ellipse 1.png' },
             { url: '/assets/profile-images/Ellipse -8.png' },
             { url: '/assets/profile-images/Ellipse -7.png' }
@@ -16,6 +28,9 @@ const PayrollForm = (props) =>{
         allDepartment: [
             'HR', 'Sales', 'Finance', 'Engineer', 'Others'
         ],
+        days: Array.from(new Array(31),(val,index)=>index+1),
+        months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+        years: [2020,2019,2018,2017,2016],
         department: [],
         gender: '',
         salary: '400000',
@@ -38,33 +53,37 @@ const PayrollForm = (props) =>{
     }
 
     if (props.location.state && props.location.state[0]==="update"){
-        // console.log(props.location.state[1]);
         Object.assign(initialValue, props.location.state[1]);
         initialValue.isUpdate = true;
         [initialValue.day, initialValue.month, initialValue.year] = initialValue.startDate.split(" ");
         initialValue.day = parseInt(initialValue.day).toString();
-
+        initialValue.salary = parseInt(initialValue.salary).toString();
     }
 
     const [formValue, setForm] = useState(initialValue);
 
     const changeValue  = (event) => {
-        let error = {
-            department: '',
-            name: '',
-            gender: '',
-            salary: '',
-            profilePic: '',
-            startDate: ''
-        }
-        let nameRegex = RegExp("^[A-Z]{1}[a-zA-Z\\s]{2,}$");
-        if ((event.target.name=="name") && !nameRegex.test(event.target.value)){
-            formValue.error.name="Incorrect Name";
+        const {name, value} = event.target;
+        let error=formValue.error;
+        error = {...error,[name]:validator.validate(name, value)};
+        setForm({...formValue, [name]: value, error: error});
+    }
+    const changeYearHandler = (event) =>{
+        const {name, value} = event.target;
+        if (formValue.month==="Feb"){
+            setForm({...formValue, [name]: value, days: getDayList[new Date(value, 2, 0).getDate()]});
         }else{
-            formValue.error.name="";
+            setForm({...formValue, [name]: value});
         }
-        setForm({ ...formValue, [event.target.name]: event.target.value })
-
+    }
+    const changeMonthHandler = (event) =>{
+        const {name, value} = event.target;
+        if (formValue.year.length>0){
+            let monthValue = formValue.months.map(month=>month.slice(0,3)).indexOf(value)+1;
+            setForm({...formValue, [name]: value, days: getDayList[new Date(formValue.year, monthValue, 0).getDate()]});
+        }else{
+            setForm({...formValue, [name]: value});
+        }
     }
 
     const onCheckChange = (name) =>{
@@ -80,8 +99,7 @@ const PayrollForm = (props) =>{
         return formValue.department && formValue.department.includes(name);
     }
 
-    const validData = async () =>{
-        let isError = false;
+    const validData = async(object)=>{
         let error = {
             department: '',
             name: '',
@@ -90,85 +108,59 @@ const PayrollForm = (props) =>{
             profilePic: '',
             startDate: ''
         }
-        let nameRegex = RegExp("^[A-Z]{1}[a-zA-Z\\s]{2,}$");
-        if (formValue.name.length < 1){
-            error.name = 'name is required field'
-            isError = true;
-        }
-        if ((!nameRegex.test(formValue.name))){
-            error.name="Incorrect Name";
-            isError = true;
-        }
-        if (formValue.gender.length < 1){
-            error.gender = 'gender is required field'
-            isError = true;
-        }
-        if (formValue.salary.length < 1){
-            error.salary = 'salary is required field'
-            isError = true;
-        }
-        if (formValue.profilePic.length < 1){
-            error.profilePic = 'profile is required field'
-            isError = true;
-        }
-        if (formValue.department.length < 1){
-            error.department = 'department is required field'
-            isError = true;
-        }
-
-        await setForm({ ...formValue, error: error })
+        const ls = error;
+        let isError = false;
+        Object.keys(ls).forEach(
+            (val) => error={...error, [val]:validator.validate(val, object[val])}
+        );
+        Object.values(error).forEach(
+            (val) => isError=isError||val.length>0
+        );
+        await setForm({...formValue, error:error});
         return isError;
-
     }
 
     const save = async (event) =>{
         event.preventDefault();
-
-        if (await validData()){
-            console.log('error', formValue);
-            return;
-        }
-
         let object = {
             name: formValue.name,
             profilePic: formValue.profilePic,
             gender: formValue.gender,
             department: formValue.department,
             salary: formValue.salary,
-            startDate: `${formValue.day.length==1?"0"+formValue.day: formValue.day} ${formValue.month} ${formValue.year}`,
-            note: formValue.note,
-            // id: formValue.id,
+            startDate: `${formValue.day} ${formValue.month} ${formValue.year}`,
+            note: formValue.note
         }
-        
+        if (await validData(object)){
+            alert("Error: Invalid Form Values");
+            return;
+        }
+        object.startDate = object.startDate.length<11?"0"+object.startDate : object.startDate;
         if(formValue.isUpdate){
             employeeService.updateEmployee(formValue.id, object).then(data =>  {
-                alert("data updated successfully");
-                console.log("data updated successfully");
+                alert("Success: Data updated successfully");
                 props.history.push('')
-            }).catch(err => console.log(err));
+            }).catch(err => alert(err));
         }else{
             employeeService.addEmployee(object).then(data =>  {
-            alert("data added successfully");
-            console.log("data added successfully");
-            props.history.push('')
-        }).catch(err => console.log(err));}
+                alert("Success: Data added successfully");
+                props.history.push('')
+            }).catch(err => alert(err))
+        }
     }
     const reset = () => {
         setForm({ ...initialValue, id: formValue.id, isUpdate: formValue.isUpdate});
-        console.log(formValue);
     }
 
     // Components
     function ProfilePic(props){     
         return (
             <label>
-                <input type="radio" name="profilePic" checked={formValue.profilePic==props.profile} value={props.profile} onChange={changeValue} />
+                <input type="radio" name="profilePic" checked={formValue.profilePic===props.profile} value={props.profile} onChange={changeValue} />
                 <img className="profile" alt="" src={props.profile} />
             </label>
         );
     }
-
-    const departments = ["HR", "Sales", "Finance", "Engineer", "Others"];
 
     function Department(props){
         return (<>
@@ -177,10 +169,6 @@ const PayrollForm = (props) =>{
             <label className="text" htmlFor={props.department}>{props.department}</label>
         </>);
     }
-
-    const days = Array.from(new Array(31),(val,index)=>index+1);
-    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const years = [2020,2019,2018,2017,2016];
     return (
         <div className="payroll-main">
             <header className='header-content header row center'>
@@ -198,35 +186,35 @@ const PayrollForm = (props) =>{
                     <div className="row-content">
                         <label className="label text" >Name</label>
                         <input className="input" type="text" id="name" name="name" placeholder="Your Name.."  value={formValue.name} onChange={changeValue} />
+                        <div className="error">{formValue.error.name}</div>
                     </div>
-                    <div className="error">{formValue.error.name}</div>
 
                     <div className="row-content">
                         <label className="label text" >Profile image</label>
                         <div className="profile-radio-content">
                             {initialValue.profileArray.map((profile, index)=><ProfilePic key={profile.url.toString()} profile={profile.url} index={index}/>)}
                         </div>
+                        <div className="error">{formValue.error.profilePic}</div>
                     </div>
-                    <div className="error">{formValue.error.profilePic}</div>
 
                     <div className="row-content">
                         <label className="label text" >Gender</label>
                         <div>
-                            <input onChange={changeValue} type="radio" id="male" name="gender" checked={formValue.gender=="male"}  value="male" />
+                            <input onChange={changeValue} type="radio" id="male" name="gender" checked={formValue.gender==="male"}  value="male" />
                             <label className="text" htmlFor="male">Male</label>
-                            <input onChange={changeValue} type="radio" id="female" name="gender" checked={formValue.gender=="female"} value="female" />
+                            <input onChange={changeValue} type="radio" id="female" name="gender" checked={formValue.gender==="female"} value="female" />
                             <label className="text" htmlFor="female">Female</label>
                         </div>
+                        <div className="error">{formValue.error.gender}</div>
                     </div>
-                    <div className="error">{formValue.error.gender}</div>
 
                     <div className="row-content">
                         <label className="label text" >Department</label>
                         <div>
-                            {departments.map((department) => <Department key={department.toString()} department={department} />)}
+                            {formValue.allDepartment.map((department) => <Department key={department.toString()} department={department} />)}
                         </div>
+                        <div className="error">{formValue.error.department}</div>
                     </div>
-                    <div className="error">{formValue.error.department}</div>
 
                     <div className="row-content">
                         <label className="label text" >Choose Your Salary: </label>
@@ -238,18 +226,21 @@ const PayrollForm = (props) =>{
                     <div className="row-content">
                         <label className="label text" >Start Date</label>
                         <div>
-                            <select onChange={changeValue} id="day" className="date" name="day" defaultValue={formValue.day}>
-                                {days.map((item) => <option key={"day"+item.toString()} value={item}>{item}</option> )}
+                            <select onChange={changeYearHandler} className="date" name="year" defaultValue={formValue.year}>
+                                <option value="" hidden>Select Year</option>
+                                {formValue.years.map((item) => <option key={"year"+item.toString()} value={item}>{item}</option> )}
                             </select>
-                            <select onChange={changeValue} id="month" className="date" name="month" defaultValue={formValue.month}>
-                                {months.map((item) => <option key={"month"+item.toString()} value={item.slice(0,3)}>{item}</option> )}
+                            <select onChange={changeMonthHandler} className="date" name="month" defaultValue={formValue.month}>
+                                <option value="" hidden>Select Month</option>
+                                {formValue.months.map((item) => <option key={"month"+item.toString()} value={item.slice(0,3)}>{item}</option> )}
                             </select>
-                            <select onChange={changeValue} id="year" className="date" name="year" defaultValue={formValue.year}>
-                                {years.map((item) => <option key={"year"+item.toString()} value={item}>{item}</option> )}
+                            <select onChange={changeValue} className="date" name="day" defaultValue={formValue.day}>
+                                <option value="" hidden>Select Day</option>
+                                {formValue.days.map((item) => <option key={"day"+item.toString()} value={item}>{item}</option> )}
                             </select>
+                            <div className="error">{formValue.error.startDate}</div>
                         </div>
                     </div>
-                    <div className="error">{formValue.error.startDate}</div>
 
                     <div className="row-content">
                         <label className="label text">Notes</label>

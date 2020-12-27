@@ -10,25 +10,23 @@ class Home extends React.Component{
         this.state={
             employeeArray: []
         }
-        // this.getAllEmployees();
     }
     componentDidMount(){
         this.getAllEmployees();
     }
     getAllEmployees(){
-        (new EmployeeService()).getAllEmployees().then(data => {
-            console.log(data);
-            // this.setState({employeeArray : data.data});
+        this.employeeService.getAllEmployees().then(data => {
             this.setState({employeeArray: data.data.data});
-        }).catch(err => console.log(err));
+        }).catch(err => alert(err));
     }
 
     remove(id){
-        (new EmployeeService()).deleteEmployee(id).then(data => {
-            alert("Delete successfully");
-            console.log("Delete successfully");
-            window.location.reload();
-        }).catch(err => console.log(err));
+        if (window.confirm("Are you sure to delete? This is an irreversible process.")){
+            this.employeeService.deleteEmployee(id).then(data => {
+                alert("Success: Deleted Successfully");
+                window.location.reload();
+            }).catch(err => alert(err));
+        }
     }
 
     render(){
@@ -76,16 +74,15 @@ class Home extends React.Component{
                                         <td>₹ {employee.salary}</td>
                                         <td>{employee.startDate}</td>
                                         <td>
-                                            <img id={employee.id} style={{paddingRight: '10px'}} onClick={()=>this.remove(employee.id)} src="/assets/icons/delete-black-18dp.svg" alt="delete" />
+                                            <img id={employee.id} style={{marginRight: '10px'}} onClick={()=>this.remove(employee.id)} src="/assets/icons/delete-black-18dp.svg" alt="delete" />
                                             <Link to={{
                                                 pathname: '/employee-form',
                                                 state: ["update", employee]
-                                            }}><img id={employee.id} style={{paddingLeft: '10px'}} src="/assets/icons/create-black-18dp.svg" alt="edit" /></Link>
+                                            }}><img id={employee.id} style={{marginRight: '10px'}} src="/assets/icons/create-black-18dp.svg" alt="edit" /></Link>
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
-
                         </table>
                     </div>   
                 </div>
