@@ -8,7 +8,8 @@ class Home extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            employeeArray: []
+            employeeArray: [],
+            allEmployeeArray: []
         }
     }
     componentDidMount(){
@@ -16,7 +17,10 @@ class Home extends React.Component{
     }
     getAllEmployees(){
         this.employeeService.getAllEmployees().then(data => {
-            this.setState({employeeArray: data.data.data});
+            this.setState({
+                employeeArray: data.data.data,
+                allEmployeeArray: data.data.data
+            });
         }).catch(err => alert(err));
     }
 
@@ -27,6 +31,15 @@ class Home extends React.Component{
                 window.location.reload();
             }).catch(err => alert(err));
         }
+    }
+    
+    search = async (event) => {
+        let keyword = event.target.value.trim().toLowerCase();
+        await this.setState({ employeeArray: this.state.allEmployeeArray });
+        let empArray = this.state.employeeArray;
+        if (keyword.trim().length > 0)
+          empArray = empArray.filter(emp => emp.name.toLowerCase().indexOf(keyword)>-1 || emp.department.some(dep=>dep.toLowerCase().indexOf(keyword)>-1));
+        this.setState({ employeeArray: empArray });
     }
 
     render(){
@@ -46,8 +59,12 @@ class Home extends React.Component{
                         <div className="emp-detail-text">
                             Employee Details <div className="emp-count">{this.state.employeeArray.length}</div>
                         </div>
-                        <a href="/employee-form" className="add-button">
-                            <img alt="" src='/assets/icons/add-24px.svg' />Add User</a>
+                        <div className="search-box">
+                        <div>
+                            <img className="search-icon" src="/assets/icons/search-black-18dp.svg" alt="" /></div>
+                            <input onChange={this.search} type="text"/>
+                        </div>
+                        <a href="/employee-form" className="add-button"><img alt="" src='/assets/icons/add-24px.svg'/>Add User</a>
                     </div>
                     <div className="table-main">
                         <table id="display" className="table">

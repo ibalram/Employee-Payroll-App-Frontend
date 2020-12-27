@@ -10,7 +10,6 @@ export default class  EmployeeService{
         return (new AxiosService()).getService(`${this.baseUrl}/`);
     }
     updateEmployee(id, data) {
-        console.log(id,data);
         return (new AxiosService()).putService(`${this.baseUrl}/update/${id}`, data);
     }
     deleteEmployee(id){
